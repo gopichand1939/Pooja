@@ -11,12 +11,12 @@ const DashboardPage = () => {
   return (
     <div className="dashboard-page">
       <div className="dashboard-grid">
-        {/* Charts area */}
+
+
         <section className="dashboard-right">
           {/* Row 1 */}
           <div className="charts-row">
             <div className="chart-card chart-large">
-              <h4 className="card-title">Intensity by Year</h4>
               <LineIntensity />
             </div>
 

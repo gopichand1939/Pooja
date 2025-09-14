@@ -37,3 +37,31 @@ button {
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
+
+
+:root {
+  /* default width of the sidebar used by your layout (already in your code) */
+  --sidebar-width: 320px;
+}
+
+/* When collapsed, reduce the sidebar width to a narrow bar (adjust to taste) */
+html.bc-sidebar-collapsed {
+  --sidebar-width: 72px; /* narrow width */
+}
+
+/* Example sidebar rules (adjust selectors to your project) */
+.bc-sidebar {
+  width: var(--sidebar-width);
+  transition: width 200ms ease;
+  overflow: hidden;
+}
+
+/* If you hide brand text when collapsed */
+html.bc-sidebar-collapsed .brand-text {
+  display: none;
+}
+
+/* Maybe scale down labels, icons, etc. when collapsed */
+html.bc-sidebar-collapsed .nav-item {
+  /* adjust padding / hide text or show tooltip in collapsed state */
+}

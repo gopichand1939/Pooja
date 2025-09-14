@@ -1,0 +1,41 @@
+
+.animated-summary {
+  width: 200px;
+  min-height: 88px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.96));
+  padding: 16px;
+  transition: transform 240ms cubic-bezier(.2,.9,.3,1), box-shadow 240ms;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  cursor: pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  will-change: transform;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.animated-summary .summary-content {
+  text-align: left;
+}
+.animated-summary .summary-title {
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+}
+.animated-summary .summary-value {
+  font-size:22px;
+  font-weight:700;
+  margin-top:8px;
+  color: var(--accent, #7C3AED);
+}
+
+.animated-summary:focus {
+  outline: none;
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 34px rgba(16,24,40,0.12);
+}
+
+@media (max-width: 900px) {
+  .animated-summary { min-width:160px; }
+}

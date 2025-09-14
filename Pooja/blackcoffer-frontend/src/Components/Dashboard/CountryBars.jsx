@@ -1,4 +1,3 @@
-// src/Components/Dashboard/CountryBars.jsx
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Bar } from "react-chartjs-2";
@@ -16,14 +15,7 @@ import "../../styles/dashboard.css";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend, Title);
 
-/**
- * CountryBars - improved visual treatment
- *
- * Props:
- *  - params: forwarded to getByCountry(params)
- *  - topN: number of countries to show (default 10)
- *  - variant: 'chart' | 'list' — chart uses Chart.js horizontal bars, list uses CSS bars
- */
+
 
 const formatLabel = (c) => (c === null || c === "" ? "Unknown" : c);
 
@@ -46,7 +38,6 @@ const buildChartData = (rows = [], topN = 10) => {
   };
 };
 
-/* lean CSS leaderboard as an alternative representation */
 const CountryList = ({ rows = [], topN = 10 }) => {
   const sorted = [...rows].sort((a, b) => (b.count || 0) - (a.count || 0)).slice(0, topN);
   const maxCount = sorted.length ? Math.max(...sorted.map((r) => r.count || 0)) : 1;

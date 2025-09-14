@@ -5,7 +5,7 @@ import "./Login.css";
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000";
 
 export default function Login() {
-  const [username, setUsername] = useState("SuperAdmin1");
+  const [username, setUsername] = useState("chandu");
   const [password, setPassword] = useState("SuperAdmin1");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

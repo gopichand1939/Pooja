@@ -1,40 +1,61 @@
 // src/Components/Layout/Navbar.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import profileImage from "../../assets/profile.png";
 
 const Navbar = () => {
-  // default/fallback if --sidebar-width is not defined
-  const FALLBACK_SIDEBAR = "320px";
+  const navigate = useNavigate();
 
+  const FALLBACK_SIDEBAR = "320px";
   const [sidebarWidth, setSidebarWidth] = useState(FALLBACK_SIDEBAR);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
+  const menuRef = useRef(null);
+
+  const storedUser = (() => {
+    try {
+      const raw = localStorage.getItem("bc_user");
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  })();
 
   useEffect(() => {
     function update() {
-      // read CSS variable from :root if present
-      const rawVar = typeof window !== "undefined"
-        ? getComputedStyle(document.documentElement).getPropertyValue("--sidebar-width")
-        : "";
+      const rawVar =
+        typeof window !== "undefined"
+          ? getComputedStyle(document.documentElement).getPropertyValue("--sidebar-width")
+          : "";
       const trimmed = rawVar ? rawVar.trim() : FALLBACK_SIDEBAR;
-
-      // numeric value for simple responsiveness check
       const numeric = parseInt(trimmed, 10) || parseInt(FALLBACK_SIDEBAR, 10);
-
-      // collapse navbar to full width on narrow windows (sidebar likely hidden)
-      if (window.innerWidth <= numeric + 480) {
-        setIsCollapsed(true);
-      } else {
-        setIsCollapsed(false);
-      }
-
+      setIsCollapsed(window.innerWidth <= numeric + 480);
       setSidebarWidth(trimmed || FALLBACK_SIDEBAR);
     }
-
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // header inline style — shifted to the right by sidebar width when not collapsed
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("bc_token");
+    localStorage.removeItem("bc_user");
+    localStorage.removeItem("bc_remember");
+    try { sessionStorage.clear(); } catch {}
+    setOpenMenu(false);
+    navigate("/", { replace: true });
+  };
+
   const headerStyle = {
     position: "fixed",
     top: 0,
@@ -48,33 +69,7 @@ const Navbar = () => {
     justifyContent: "space-between",
     zIndex: 1100,
     boxShadow: "0 4px 18px rgba(15, 23, 42, 0.06)",
-    boxSizing: "border-box"
-  };
-
-  const navLeftStyle = {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    minWidth: 180
-  };
-
-  const navLogoStyle = {
-    width: 36,
-    height: 36,
-    objectFit: "contain"
-  };
-
-  const brandTitleStyle = {
-    fontWeight: 700,
-    fontSize: 16,
-    color: "#fff",
-    lineHeight: 1
-  };
-
-  const brandSubStyle = {
-    fontSize: 12,
-    color: "rgba(255,255,255,0.9)",
-    marginTop: 2
+    boxSizing: "border-box",
   };
 
   const navCenterStyle = {
@@ -82,7 +77,7 @@ const Navbar = () => {
     flex: 1,
     justifyContent: "center",
     gap: 28,
-    alignItems: "center"
+    alignItems: "center",
   };
 
   const navLinkStyle = {
@@ -90,44 +85,127 @@ const Navbar = () => {
     fontWeight: 600,
     textDecoration: "none",
     padding: "10px 8px",
-    borderRadius: 6
+    borderRadius: 6,
   };
 
   const navRightStyle = {
     minWidth: 160,
     display: "flex",
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
+    position: "relative",
   };
 
-  const btnProfileStyle = {
+  const avatarStyle = {
+    width: 40,
+    height: 40,
+    borderRadius: "50%",
+    cursor: "pointer",
+    border: "2px solid #fff",
+    objectFit: "cover",
+  };
+
+  const dropdownStyle = {
+    position: "absolute",
+    top: "60px",
+    right: 0,
     background: "#fff",
-    color: "#1f2937",
-    padding: "8px 12px",
-    borderRadius: 20,
-    border: "none",
-    fontWeight: 600,
-    cursor: "pointer"
+    borderRadius: "10px",
+    boxShadow: "0 6px 24px rgba(0,0,0,0.1)",
+    width: "240px",
+    padding: "10px 0",
+    zIndex: 1200,
+  };
+
+  const dropdownItemStyle = {
+    padding: "10px 16px",
+    fontSize: "14px",
+    color: "#374151",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
   };
 
   return (
     <header style={headerStyle}>
-      <div style={navLeftStyle}>
-        <img src="/vite.svg" alt="logo" style={navLogoStyle} />
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/* <img src="/logo.png" alt="logo" style={{ width: 36, height: 36 }} /> */}
         <div>
-          <div style={brandTitleStyle}>DASHBOARD</div>
-          <div style={brandSubStyle}>Blackcoffer</div>
+          <div style={{ fontWeight: 700, fontSize: 16, color: "#fff" }}>DASHBOARD</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.9)", marginTop: 2 }}>
+            Blackcoffer
+          </div>
         </div>
       </div>
 
       <nav style={navCenterStyle}>
-        <a style={navLinkStyle} href="/body">Dashboard</a>
-        <a style={navLinkStyle} href="/body/explorer">Data Explorer</a>
-        <a style={navLinkStyle} href="/body/insights">Insights</a>
+        <Link style={navLinkStyle} to="/body">Dashboard</Link>
+        <Link style={navLinkStyle} to="/body/explorer">Data Explorer</Link>
+        <Link style={navLinkStyle} to="/body/insights">Insights</Link>
       </nav>
 
-      <div style={navRightStyle}>
-        <button style={btnProfileStyle}>Profile</button>
+      <div style={navRightStyle} ref={menuRef}>
+<img
+  src={storedUser?.avatar || profileImage}
+  alt={storedUser?.username || "profile"}
+  style={avatarStyle}
+  onClick={() => setOpenMenu((s) => !s)}
+/>
+
+        {openMenu && (
+          <div style={dropdownStyle}>
+            <div style={{ padding: "12px 16px", borderBottom: "1px solid #eee" }}>
+              <div style={{ fontWeight: 600 }}>{storedUser?.username ?? "John Doe"}</div>
+              <div style={{ fontSize: 12, color: "#6b7280" }}>
+                {storedUser?.role ?? "Admin"}
+              </div>
+            </div>
+
+            <div
+              style={dropdownItemStyle}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#f3f4f6")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              onClick={() => { setOpenMenu(false); navigate("/body/profile"); }}
+            >
+              👤 Profile
+            </div>
+
+            <div
+              style={dropdownItemStyle}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#f3f4f6")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              onClick={() => { setOpenMenu(false); navigate("/body/settings"); }}
+            >
+              ⚙️ Settings
+            </div>
+
+            <div
+              style={dropdownItemStyle}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#f3f4f6")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            >
+              📄 Billing Plan
+            </div>
+
+            <div
+              style={dropdownItemStyle}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#f3f4f6")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            >
+              ❓ FAQ
+            </div>
+
+            <div
+              style={{ ...dropdownItemStyle, color: "#dc2626", fontWeight: 600 }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#fee2e2")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              onClick={handleLogout}
+            >
+              🚪 Logout
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );

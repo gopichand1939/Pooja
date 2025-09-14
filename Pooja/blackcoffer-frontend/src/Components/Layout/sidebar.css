@@ -8,15 +8,14 @@
   --accent: #7c3aed;
   --input-bg: #ffffff;
   --input-border: #d1d5db;
-  --card-shadow: 0 1px 6px rgba(16,24,40,0.08); /* slightly stronger */
-  --sidebar-width: 320px;     /* increased width */
-  --sidebar-min-width: 260px; /* increased min width */
-  --nav-radius: 12px;         /* slightly larger radius for modern look */
+  --card-shadow: 0 1px 6px rgba(16,24,40,0.08); 
+  --sidebar-width: 320px;     
+  --sidebar-min-width: 260px; 
+  --nav-radius: 12px;         
   --nav-padding-vertical: 14px;
   --nav-padding-horizontal: 16px;
 }
 
-/* container */
 .bc-sidebar {
   width: var(--sidebar-width);
   min-width: var(--sidebar-min-width);
@@ -28,11 +27,9 @@
   border-right: 1px solid var(--sidebar-border);
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   overflow: hidden;
-  /* subtle entrance shadow to separate from page */
   box-shadow: 0 1px 10px rgba(16,24,40,0.02);
 }
 
-/* brand block (sticky) */
 .sidebar-brand {
   display: flex;
   align-items: center;
@@ -44,7 +41,7 @@
   top: 0;
   z-index: 10;
 }
-.brand-logo { width: 40px; height: 40px; } /* slightly larger */
+.brand-logo { width: 40px; height: 40px; } 
 .brand-text { font-weight: 800; font-size: 18px; color: var(--text); }
 
 /* nav */
@@ -55,7 +52,6 @@
   gap: 8px;
 }
 
-/* nav items: bigger hit area, cleaner look */
 .nav-item {
   display: block;
   padding: var(--nav-padding-vertical) var(--nav-padding-horizontal);
@@ -69,7 +65,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 12px; /* room for icons */
+  gap: 12px; 
 }
 
 /* subtle hover lift */
@@ -85,7 +81,7 @@
   background: linear-gradient(90deg, rgba(124,58,237,0.18), rgba(124,58,237,0.08));
   color: var(--accent);
   box-shadow: var(--card-shadow);
-  transform: translateY(0); /* keep active stable */
+  transform: translateY(0); 
 }
 
 /* keyboard / focus states for accessibility */
@@ -116,7 +112,7 @@
 .select-wrapper { position: relative; }
 .bc-select {
   width: 100%;
-  padding: 12px 44px 12px 14px; /* slightly larger padding for comfortable click area */
+  padding: 12px 44px 12px 14px; 
   background: var(--input-bg);
   color: var(--text);
   border: 1px solid var(--input-border);
@@ -150,7 +146,6 @@
   opacity: 0.9;
 }
 
-/* multiple select appearance (taller scrollable box) */
 .bc-select[multiple] {
   padding-right: 12px;
   min-height: 140px;
@@ -259,4 +254,40 @@ input[type="range"]::-webkit-slider-thumb {
 .sidebar-filters {
   scrollbar-width: thin;
   scrollbar-color: rgba(124,58,237,0.18) transparent;
+}
+
+
+/* sidebar.css */
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between logo and text */
+  padding: 10px 15px;
+}
+
+.brand-logo {
+  height: 40px;   /* increase size */
+  width: auto;    /* maintain aspect ratio */
+  object-fit: contain; /* prevents distortion */
+  border-radius: 0;    /* no rounded corners */
+}
+
+.brand-text {
+  font-size: 20px;  /* bigger text for brand */
+  font-weight: bold;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+}
+
+.brand-logo {
+  height: 70px;         /* adjust size */
+  width: 70px;          /* force square so circle is perfect */
+  object-fit: cover;    /* crop properly */
+  border-radius: 50%;   /* make it round */
 }

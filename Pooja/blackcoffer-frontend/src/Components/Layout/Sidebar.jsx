@@ -14,7 +14,7 @@ const Sidebar = () => {
   return (
     <aside className="bc-sidebar">
       <div className="sidebar-brand">
-        <img src="/vite.svg" alt="logo" className="brand-logo" />
+        <img src="/logo.png" alt="logo" className="brand-logo" />
         <div className="brand-text">Blackcoffer</div>
       </div>
 

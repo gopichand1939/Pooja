@@ -6,8 +6,8 @@ const router = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev_secret";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "2h";
-const AUTH_USERNAME = process.env.AUTH_USERNAME || "SuperAdmin1";
-const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "SuperAdmin1";
+const AUTH_USERNAME = process.env.AUTH_USERNAME || "Chandu";
+const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "Bseap@1939";
 
 /**
  * POST /api/auth/login

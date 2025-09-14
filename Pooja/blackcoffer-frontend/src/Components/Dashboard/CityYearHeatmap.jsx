@@ -1,47 +1,32 @@
-// src/Components/Dashboard/CityYearHeatmap.jsx
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { getCityYearHeatmap } from "../../Services/api";
 
-/**
- * Bigger, teal-themed CityYearHeatmap
- * - larger default cellSize for more prominent boxes
- * - teal/blue color ramp
- * - centered and responsive
- */
+
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
-/** interpolate two RGB arrays */
 const lerp = (a, b, t) => [
   Math.round(a[0] + (b[0] - a[0]) * t),
   Math.round(a[1] + (b[1] - a[1]) * t),
   Math.round(a[2] + (b[2] - a[2]) * t),
 ];
 
-/** convert hex color to RGB array */
 const hexToRgb = (hex) => {
   const h = hex.replace("#", "");
   const bigint = parseInt(h.length === 3 ? h.split("").map(c=>c+c).join("") : h, 16);
   return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
 };
 
-/**
- * New teal theme:
- * light: #eef7fb (very pale)
- * mid:   #9fe3f2
- * deep:  #008299
- */
 function colorForValue(v, min, max) {
   if (v === null || v === undefined || Number.isNaN(v)) return "#f3f4f6";
   if (max === min) return "#008299";
   const t = clamp((v - min) / (max - min), 0, 1);
 
-  const cLight = hexToRgb("#eef7fb"); // pale blue
-  const cMid = hexToRgb("#9fe3f2"); // mid cyan
-  const cDeep = hexToRgb("#008299"); // deep teal
+  const cLight = hexToRgb("#eef7fb"); 
+  const cMid = hexToRgb("#9fe3f2");
+  const cDeep = hexToRgb("#008299"); 
 
-  // use a two-stage interpolation (light -> mid -> deep)
   if (t < 0.5) {
     const sub = t / 0.5;
     const rgb = lerp(cLight, cMid, sub);
@@ -53,7 +38,6 @@ function colorForValue(v, min, max) {
   }
 }
 
-/** tooltip rendered via foreignObject for nicer styling */
 const ToolTip = ({ x, y, children }) => (
   <foreignObject x={x} y={y} width={300} height={84} style={{ pointerEvents: "none" }}>
     <div xmlns="http://www.w3.org/1999/xhtml" style={{
@@ -73,7 +57,7 @@ const ToolTip = ({ x, y, children }) => (
 const CityYearHeatmap = ({
   params = {},
   metricLabel = "Value",
-  cellSize = 88,        // increased default cell size for bigger boxes
+  cellSize = 88,        
   lastNYears = 8,
   topNCities = 6,
   maxSvgWidth = 1200
@@ -110,8 +94,7 @@ const CityYearHeatmap = ({
     };
     window.addEventListener("filtersChanged", handler);
     return () => window.removeEventListener("filtersChanged", handler);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  }, []);
   useEffect(() => {
     fetch(params);
   }, [JSON.stringify(params)]);
@@ -168,7 +151,6 @@ const CityYearHeatmap = ({
 
   const { years, cities, grid, min, max } = matrix;
 
-  // compute width/height and scale if necessary
   const leftLabelWidth = 180;
   const topLabelHeight = 36;
   let width = leftLabelWidth + years.length * cellSize + 36;

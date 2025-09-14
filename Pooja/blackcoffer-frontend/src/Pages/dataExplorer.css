@@ -1,0 +1,99 @@
+/* src/Pages/dataExplorer.css */
+
+/* page layout */
+.df-explorer-page {
+  padding: 24px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  min-height: calc(100vh - 72px);
+}
+.df-explorer-header h1 {
+  font-size: 28px;
+  margin: 0 0 6px 0;
+}
+.muted { color: #6b7280; margin-bottom: 8px; }
+
+.df-kpi-row {
+  display:flex;
+  gap:16px;
+  margin-top:18px;
+  margin-bottom:18px;
+  align-items:center;
+}
+
+/* shared card style */
+.df-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), #fff);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 8px 28px rgba(16,24,40,0.06);
+  border: 1px solid rgba(99,102,241,0.06);
+}
+
+/* grid with two columns on larger screens */
+.df-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+/* tooltip used by d3 charts */
+.d3-tooltip {
+  background: rgba(17,24,39,0.95);
+  color: white;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  pointer-events: none;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.3);
+  z-index: 9999;
+}
+
+/* Animated summary card styles (also referenced by component) */
+.animated-summary {
+  width: 200px;
+  min-height: 88px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.96));
+  padding: 16px;
+  transition: transform 240ms cubic-bezier(.2,.9,.3,1), box-shadow 240ms;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  cursor: pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  will-change: transform;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* inner content */
+.animated-summary .summary-content {
+  text-align: left;
+}
+.animated-summary .summary-title {
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+}
+.animated-summary .summary-value {
+  font-size:22px;
+  font-weight:700;
+  margin-top:8px;
+  color: var(--accent, #7C3AED);
+}
+
+
+.animated-summary:focus {
+  outline: none;
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 34px rgba(16,24,40,0.12);
+}
+
+
+@media (max-width: 900px) {
+  .df-charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .df-kpi-row { overflow:auto; padding-bottom:6px; }
+  .animated-summary { min-width:160px; }
+}

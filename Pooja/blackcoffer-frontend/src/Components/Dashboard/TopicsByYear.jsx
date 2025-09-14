@@ -18,7 +18,6 @@ import { selectFilters } from "../../Redux/slices/filtersSlice";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, Filler);
 
-/* — palette (soft but distinct) — */
 const PALETTE = [
   "#6d28d9",
   "#7c3aed",
@@ -58,10 +57,7 @@ function compactParams(obj = {}) {
   return out;
 }
 
-/**
- * rows: expected shape [{ year, topic, count }, ...]
- * Build stacked datasets showing topN topics (by total count)
- */
+
 function buildStackedData(rows = [], topNTopics = 12) {
   if (!rows || !rows.length) return { labels: [], datasets: [], totals: {} };
 
@@ -79,7 +75,6 @@ function buildStackedData(rows = [], topNTopics = 12) {
   const topicsSorted = Object.keys(topicTotals).sort((a, b) => topicTotals[b] - topicTotals[a]);
   const chosenTopics = topicsSorted.slice(0, topNTopics);
 
-  // create lookup map topic::year -> value
   const lookup = {};
   rows.forEach((r) => {
     const y = String(r.year ?? r._id?.year ?? "");
@@ -108,7 +103,6 @@ const TopicsByYear = ({ params = {}, topNTopics = 12 }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // merge redux filters + props (props override)
   const merged = useMemo(() => ({ ...(reduxFilters || {}), ...(params || {}) }), [reduxFilters, params]);
   const effectiveParams = useMemo(() => compactParams(merged), [merged]);
 
@@ -148,7 +142,6 @@ const TopicsByYear = ({ params = {}, topNTopics = 12 }) => {
 
   const { labels, datasets, chosenTopics, totals } = buildStackedData(rows, topNTopics);
 
-  // compute legend labels that show count summary for top topics
   const legendLabels = chosenTopics.map((t, i) => ({
     text: `${t}`,
     fillStyle: colorForIndex(i, 0.95),
@@ -171,9 +164,7 @@ const TopicsByYear = ({ params = {}, topNTopics = 12 }) => {
           usePointStyle: false,
           font: { size: 13, weight: "600" },
         },
-        // show only topN in legend
         onClick: (e, legendItem, legend) => {
-          // toggle dataset visibility
           const ci = legend.chart;
           const idx = legendItem.datasetIndex;
           const meta = ci.getDatasetMeta(idx);
@@ -190,12 +181,10 @@ const TopicsByYear = ({ params = {}, topNTopics = 12 }) => {
         padding: 10,
         bodyFont: { size: 13, weight: "600" },
         callbacks: {
-          // title shows Year
           title: (items) => {
             if (!items || !items.length) return "";
             return `Year: ${items[0].label}`;
           },
-          // label shows topic: value (and total)
           label: (context) => {
             const datasetLabel = context.dataset.label || "";
             const value = context.parsed.y !== undefined ? context.parsed.y : context.raw;
@@ -241,15 +230,12 @@ const TopicsByYear = ({ params = {}, topNTopics = 12 }) => {
         },
       },
     },
-    // highlight effect on hover
     onHover: (evt, chartElements) => {
-      // change cursor when over a bar
       const el = chartElements && chartElements.length;
       evt.native.target.style.cursor = el ? "pointer" : "default";
     },
   };
 
-  // final data object (apply a softer background variant for stacked fill)
   const data = {
     labels,
     datasets: datasets.map((d, idx) => ({
@@ -272,7 +258,6 @@ const TopicsByYear = ({ params = {}, topNTopics = 12 }) => {
       gap: 12
     }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 12 }}>
-        <h4 style={{ margin: 0, fontSize: 16, color: "#0f172a" }}>Topics by Year</h4>
         <div style={{ fontSize: 13, color: "#64748b" }}>
           Top {chosenTopics.length} topics • stacked
         </div>
@@ -282,7 +267,6 @@ const TopicsByYear = ({ params = {}, topNTopics = 12 }) => {
         <Bar data={data} options={options} />
       </div>
 
-      {/* small legend summary cards beneath the chart for quick counts */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" }}>
         {chosenTopics.map((t, i) => (
           <div key={t} style={{

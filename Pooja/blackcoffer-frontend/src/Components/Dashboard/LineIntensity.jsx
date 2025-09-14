@@ -26,9 +26,6 @@ ChartJS.register(
   Filler
 );
 
-/**
- * normalize dataset returned by API into labels + dataset + meta
- */
 const buildChartData = (rows = []) => {
   const normalized = rows
     .map((r) => {
@@ -51,7 +48,6 @@ const buildChartData = (rows = []) => {
       {
         label: "Avg Intensity",
         data: normalized.map((r) => r.avg),
-        // borderColor left as color; the area fill is provided scriptably below
         borderColor: "#4f46e5",
         tension: 0.35,
         cubicInterpolationMode: "monotone",
@@ -108,16 +104,15 @@ const LineIntensity = ({ params = {} }) => {
     return () => window.removeEventListener("filtersChanged", handler);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // refetch when params change
+
   useEffect(() => {
     fetch(params);
-  }, [JSON.stringify(params)]); // shallow compare
+  }, [JSON.stringify(params)]); 
 
   if (loading) return <div style={{ padding: 18 }}>Loading intensity…</div>;
   if (error) return <div style={{ padding: 18, color: "crimson" }}>{error}</div>;
   if (!chartData || !chartData.labels.length) return <div style={{ padding: 18 }}>No data</div>;
 
-  // Chart.js options with scriptable backgroundColor for proper gradient
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -191,26 +186,21 @@ const LineIntensity = ({ params = {} }) => {
       },
     },
     animation: { duration: 700, easing: "easeOutQuart" },
-    // add subtle hover glow by changing border width on hover via plugin-like scriptable options
   };
 
-  // We use Chart.js scriptable option to supply a dynamic gradient that scales with chart area.
   const data = {
     labels: chartData.labels,
     datasets: chartData.datasets.map((ds, idx) => ({
       ...ds,
-      // scriptable background that draws a vertical gradient based on chart area
       backgroundColor: (context) => {
         const chart = context.chart;
         const { ctx, chartArea } = chart;
         if (!chartArea) {
-          // chart not yet ready -> fallback translucent fill
           return "rgba(37,99,235,0.12)";
         }
         const top = chartArea.top;
         const bottom = chartArea.bottom;
         const gradient = ctx.createLinearGradient(0, top, 0, bottom);
-        // gradient stops (soft blue -> transparent)
         gradient.addColorStop(0, "rgba(99,102,241,0.28)");
         gradient.addColorStop(0.35, "rgba(99,102,241,0.16)");
         gradient.addColorStop(1, "rgba(99,102,241,0.03)");
@@ -223,7 +213,6 @@ const LineIntensity = ({ params = {} }) => {
     })),
   };
 
-  // container with responsive height so chart looks balanced
   return (
     <div style={{
       width: "100%",
