@@ -1,0 +1,39 @@
+/* src/index.css - global styles, light-first */
+:root {
+  --bg: #f7fafc;         /* app background */
+  --panel: #ffffff;      /* cards / panels */
+  --muted: #6b7280;      /* muted text */
+  --text: #111827;       /* main text */
+  --accent: #2563eb;     /* primary accent (blue) */
+  --border: #e6e9ef;     /* subtle borders */
+  --shadow: 0 2px 6px rgba(16,24,40,0.06);
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a { color: var(--accent); text-decoration: none; }
+button {
+  font-family: inherit;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* small helper classes */
+.container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}

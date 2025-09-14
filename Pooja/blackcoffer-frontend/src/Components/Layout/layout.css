@@ -1,0 +1,81 @@
+/* src/styles/layout.css */
+:root{
+  --sidebar-width: 240px;
+  --header-height: 72px;
+  --page-bg: #f7fafc;
+  --panel-bg: #ffffff;
+  --text: #111827;
+  --border: #e6e9ef;
+}
+
+.bc-app {
+  display: block;
+  min-height: 100vh;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", Arial;
+}
+
+/* Fixed left sidebar */
+.bc-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  background: var(--panel-bg);
+  border-right: 1px solid var(--border);
+  padding: 18px;
+  z-index: 40;
+  overflow: auto;
+  box-shadow: none;
+}
+
+/* main content sits to the right of sidebar */
+.bc-main {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--page-bg);
+}
+
+/* navbar sticky inside main column */
+.bc-navbar {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  background: linear-gradient(90deg,#6d28d9,#7c3aed);
+  color: #fff;
+  position: sticky;
+  top: 0;           /* stays visible when main scrolls */
+  z-index: 30;
+}
+
+/* content area below navbar (scrollable) */
+.bc-content {
+  flex: 1 1 auto;
+  padding: 20px;
+  overflow-y: auto;
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* small footer at bottom of main */
+.bc-footer {
+  height: 48px;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* optional wrapper inside main content to control width */
+.container-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 24px;
+}

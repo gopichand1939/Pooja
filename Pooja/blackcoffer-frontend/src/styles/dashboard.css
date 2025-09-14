@@ -1,0 +1,149 @@
+/* ===== Dashboard card sizing (adjust heights if needed) ===== */
+.chart-card { 
+  background: var(--card-bg, #fff);
+  border-radius: var(--box-radius, 12px);
+  border: 1px solid var(--border, rgba(15,23,42,0.06));
+  box-shadow: var(--shadow, 0 6px 16px rgba(15,23,42,0.04));
+  padding: 18px;
+  box-sizing: border-box;
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), 
+              box-shadow 220ms cubic-bezier(.2,.9,.2,1),
+              border-color 220ms ease,
+              background 220ms ease;
+  will-change: transform, box-shadow;
+  overflow: hidden;
+  position: relative;
+  min-height: 220px;
+}
+
+/* Sizes — tweak heights for visual balance */
+.chart-large { min-height: 420px; }
+.chart-medium { min-height: 300px; }
+.chart-wide { min-height: 360px; }
+
+/* Title style inside cards */
+.chart-card .card-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text, #0f172a);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* subtle pill on top-right for meta (optional) */
+.chart-card .card-meta {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  font-size: 12px;
+  color: var(--muted, #6b7280);
+  background: transparent;
+  padding: 6px 8px;
+  border-radius: 999px;
+}
+
+/* ===== Hover / Focus effects ===== */
+.chart-card:hover,
+.chart-card:focus-within {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 18px 40px rgba(2,6,23,0.45);
+  border-color: rgba(139,92,246,0.85); /* purple glow as default */
+  z-index: 5;
+}
+
+/* stronger highlight for dark theme using css var */
+[data-theme="dark"] .chart-card:hover,
+[data-theme="dark"] .chart-card:focus-within {
+  border-color: rgba(139,92,246,0.95);
+  box-shadow: 0 20px 48px rgba(7,10,25,0.7);
+}
+
+/* tiny accent glow using pseudo-element */
+.chart-card::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 220ms ease, transform 220ms ease;
+  background: linear-gradient(90deg, rgba(124,58,237,0.06), rgba(79,70,229,0.04));
+  filter: blur(18px);
+  transform: translateY(6px) scale(0.98);
+  z-index: -1;
+}
+.chart-card:hover::after,
+.chart-card:focus-within::after {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* keyboard focus ring for accessibility */
+.chart-card:focus-within {
+  outline: 3px solid rgba(99,102,241,0.12);
+  outline-offset: 2px;
+}
+
+/* make inner SVG/Canvas interactive visually */
+.chart-card svg, .chart-card canvas {
+  display: block;
+  margin: 8px 0 0 0;
+  transition: transform 160ms ease, filter 160ms ease;
+  width: 100% !important; /* help Chart.js fit nicely */
+  height: calc(100% - 36px) !important;
+  border-radius: 10px;
+}
+
+/* when hovering the card, nudge the chart for subtle parallax */
+.chart-card:hover svg,
+.chart-card:hover canvas {
+  transform: translateY(-4px) scale(1.005);
+  filter: drop-shadow(0 8px 20px rgba(2,6,23,0.08));
+}
+
+/* tooltips and legends should match theme */
+.chart-card .chartjs-tooltip, .chartjs-tooltip {
+  background: var(--tooltip-bg, #fff);
+  color: var(--text, #0f172a);
+  border: 1px solid var(--border, rgba(0,0,0,0.06));
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  border-radius: 8px;
+}
+
+/* card inner padding tweaks so titles align perfectly in rows */
+.charts-row {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 18px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+/* ensure side-by-side cards share equal width where desired */
+.charts-row > .chart-card {
+  flex: 1 1 0;
+  min-width: 280px;
+}
+
+/* For a pair of two medium cards, make them equal width */
+.charts-row > .chart-card.chart-medium { flex-basis: calc(50% - 9px); }
+
+/* heatmap centering helper */
+.chart-card .bc-heatmap-wrapper, .chart-card .heatmap-container {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 4px 0 0 0;
+}
+
+/* small screens — stack nicely */
+@media (max-width: 900px) {
+  .charts-row { gap: 12px; }
+  .chart-large, .chart-medium, .chart-wide { min-height: 240px; }
+  .charts-row > .chart-card.chart-medium { flex-basis: 100%; }
+}
+
+/* small micro-anim for individual heatmap cells already defined in component;
+   ensure cursor pointer for interactive cells */
+.chart-card rect[role="button"] { cursor: pointer; }

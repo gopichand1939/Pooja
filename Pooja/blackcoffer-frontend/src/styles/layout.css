@@ -1,0 +1,96 @@
+/* src/styles/layout.css - light app layout */
+
+:root {
+  --sidebar-width: 240px;
+  --navbar-height: 72px;
+  --bg: #f3f6fb;
+  --panel: #ffffff;
+  --muted: #6b7280;
+  --text: #111827;
+  --accent: #6d28d9;
+  --border: #e6e9ef;
+  --shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* App wrapper: sidebar fixed left */
+.bc-app {
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+}
+
+/* Sidebar fixed */
+.bc-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  background: #ffffff;
+  border-right: 1px solid var(--border);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(16,24,40,0.03);
+  z-index: 50;
+}
+
+/* Main content container sits to the right of fixed sidebar */
+.bc-main {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Navbar fixed at top of main area */
+.bc-navbar {
+  position: fixed;
+  left: var(--sidebar-width);
+  right: 0;
+  top: 0;
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #6d28d9, #7c3aed);
+  color: white;
+  z-index: 60;
+  padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(16,24,40,0.06);
+}
+
+/* Content area below navbar */
+.bc-content {
+  padding: calc(var(--navbar-height) + 24px) 24px 24px 24px; /* top padding for the navbar */
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Footer */
+.bc-footer {
+  height: 48px;
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* small helpers / container */
+.container-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* keep sidebar branding compact */
+.brand-logo { width: 36px; height: 36px; display:inline-block }
+.brand-text { font-weight: 700; margin-left: 8px; vertical-align: middle; }

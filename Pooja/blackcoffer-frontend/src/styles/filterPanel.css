@@ -1,0 +1,153 @@
+/* src/styles/filterPanel.css */
+
+/* Panel container */
+.bc-filter-panel.fp-panel {
+  width: 320px;
+  padding: 16px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Header */
+.fp-header {
+  margin-bottom: 12px;
+}
+.fp-title {
+  margin: 0 0 4px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.fp-sub {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Filter group */
+.filter-group {
+  margin-bottom: 12px;
+}
+.filter-heading {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: #111827;
+}
+
+/* Selects */
+.select-wrapper,
+.multi-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.bc-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+.bc-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+  border-color: #6366f1;
+}
+
+/* multi select sizing */
+.bc-select-multi {
+  min-height: 96px;
+  height: auto;
+}
+
+/* chips area */
+.fp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 110px;
+}
+.fp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid #e6e6f0;
+  background: #f8fafc;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.fp-chip:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+.fp-chip-text { line-height: 1; }
+.fp-chip-x { font-size: 0.8rem; opacity: 0.7; }
+
+/* ranges */
+.range-group { margin-top: 6px; }
+.range-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.range-row input[type="range"] {
+  flex: 1;
+  appearance: none;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg,#e6e6e6,#e6e6e6);
+}
+.range-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #6366f1;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.2);
+  cursor: pointer;
+}
+.range-value {
+  min-width: 30px;
+  text-align: right;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* actions */
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.btn-apply, .btn-reset {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-apply {
+  background: #4f46e5;
+  color: #fff;
+}
+.btn-reset {
+  background: #f3f4f6;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+}
+
+/* small responsive tweak */
+@media (max-width: 720px) {
+  .bc-filter-panel.fp-panel {
+    width: 100%;
+    padding: 12px;
+  }
+  .fp-chips { max-width: 140px; }
+}

@@ -1,0 +1,262 @@
+/* sidebar.css — light theme, clear labels and active state (updated) */
+
+:root{
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e6e9ef;
+  --muted: #6b7280;
+  --text: #111827;
+  --accent: #7c3aed;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --card-shadow: 0 1px 6px rgba(16,24,40,0.08); /* slightly stronger */
+  --sidebar-width: 320px;     /* increased width */
+  --sidebar-min-width: 260px; /* increased min width */
+  --nav-radius: 12px;         /* slightly larger radius for modern look */
+  --nav-padding-vertical: 14px;
+  --nav-padding-horizontal: 16px;
+}
+
+/* container */
+.bc-sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-min-width);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--sidebar-bg);
+  color: var(--text);
+  border-right: 1px solid var(--sidebar-border);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  overflow: hidden;
+  /* subtle entrance shadow to separate from page */
+  box-shadow: 0 1px 10px rgba(16,24,40,0.02);
+}
+
+/* brand block (sticky) */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 18px;
+  border-bottom: 1px solid var(--sidebar-border);
+  background: linear-gradient(180deg, rgba(124,58,237,0.03), transparent);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.brand-logo { width: 40px; height: 40px; } /* slightly larger */
+.brand-text { font-weight: 800; font-size: 18px; color: var(--text); }
+
+/* nav */
+.sidebar-nav {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* nav items: bigger hit area, cleaner look */
+.nav-item {
+  display: block;
+  padding: var(--nav-padding-vertical) var(--nav-padding-horizontal);
+  color: var(--muted);
+  border-radius: var(--nav-radius);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  transition: background .14s ease, color .12s ease, transform .08s ease, box-shadow .12s ease;
+  will-change: transform, background, color;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px; /* room for icons */
+}
+
+/* subtle hover lift */
+.nav-item:hover {
+  background: rgba(124,58,237,0.06);
+  color: var(--text);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16,24,40,0.04);
+}
+
+/* active */
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(124,58,237,0.18), rgba(124,58,237,0.08));
+  color: var(--accent);
+  box-shadow: var(--card-shadow);
+  transform: translateY(0); /* keep active stable */
+}
+
+/* keyboard / focus states for accessibility */
+.nav-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(124,58,237,0.08);
+  background: rgba(124,58,237,0.04);
+  color: var(--text);
+}
+
+/* filters area: scrollable */
+.sidebar-filters {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px;
+  gap: 12px;
+}
+
+/* small headings */
+.filter-heading {
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+/* select / input styling — light and readable */
+.select-wrapper { position: relative; }
+.bc-select {
+  width: 100%;
+  padding: 12px 44px 12px 14px; /* slightly larger padding for comfortable click area */
+  background: var(--input-bg);
+  color: var(--text);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+}
+.bc-select:focus {
+  border-color: rgba(124,58,237,0.9);
+  box-shadow: 0 0 0 8px rgba(124,58,237,0.06);
+}
+
+/* arrow */
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  width: 12px;
+  height: 12px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(-45deg, transparent 50%, var(--muted) 50%);
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* multiple select appearance (taller scrollable box) */
+.bc-select[multiple] {
+  padding-right: 12px;
+  min-height: 140px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* inputs */
+.bc-input {
+  width: 100%;
+  padding: 12px;
+  background: var(--input-bg);
+  color: var(--text);
+  border-radius: 10px;
+  border: 1px solid var(--input-border);
+  font-size: 14px;
+}
+
+/* range */
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.range-row .range-value {
+  min-width: 40px;
+  text-align: right;
+  color: var(--muted);
+  font-size: 13px;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  outline: none;
+  transition: box-shadow .12s ease;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 8px rgba(124,58,237,0.06);
+  border: 0;
+  cursor: pointer;
+}
+
+/* buttons */
+.filter-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.btn-apply {
+  background: linear-gradient(90deg,#7c3aed,#6d28d9);
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  flex: 1;
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+.btn-apply:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(109,40,217,0.12); }
+.btn-reset {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--input-border);
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  flex-basis: 120px;
+}
+
+/* footer (sticky) */
+.sidebar-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--sidebar-border);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* scrollbar: sleeker, smoother appearance */
+.sidebar-filters::-webkit-scrollbar { width: 10px; }
+.sidebar-filters::-webkit-scrollbar-track {
+  background: linear-gradient(180deg,#f8fafc,#ffffff);
+  border-radius: 10px;
+}
+.sidebar-filters::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(124,58,237,0.18), rgba(124,58,237,0.12));
+  border-radius: 10px;
+  border: 2px solid transparent; /* gives padding effect */
+  background-clip: content-box;
+  transition: background-color .12s ease, transform .12s ease;
+}
+.sidebar-filters::-webkit-scrollbar-thumb:hover {
+  transform: translateX(-1px);
+  background: linear-gradient(180deg, rgba(124,58,237,0.26), rgba(124,58,237,0.16));
+}
+
+/* firefox scrollbar (approximation) */
+.sidebar-filters {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124,58,237,0.18) transparent;
+}

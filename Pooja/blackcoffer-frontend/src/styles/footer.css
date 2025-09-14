@@ -1,0 +1,11 @@
+/* src/styles/footer.css */
+
+.bc-footer {
+  height: 48px;
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
